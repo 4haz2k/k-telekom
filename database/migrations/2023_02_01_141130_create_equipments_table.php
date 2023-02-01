@@ -19,8 +19,7 @@ class CreateEquipmentsTable extends Migration
             $table->unsignedBigInteger('type_id')
                 ->comment('ID типа оборудования');
 
-            $table->unsignedBigInteger('serial_number')
-                ->unique()
+            $table->text('serial_number')
                 ->comment('Серийный номер');
 
             $table->longText('description')
