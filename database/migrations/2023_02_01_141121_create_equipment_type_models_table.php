@@ -13,9 +13,17 @@ class CreateEquipmentTypeModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('equipment_type_models', function (Blueprint $table) {
+        Schema::create('equipment_type', function (Blueprint $table) {
             $table->id();
+
+            $table->text('name')
+                ->comment('Наименование типа');
+
+            $table->text('mask')
+                ->comment('Маска серийного номера');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
