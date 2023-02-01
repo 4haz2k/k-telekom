@@ -13,7 +13,7 @@ class CreateEquipmentTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('equipment_type', function (Blueprint $table) {
+        Schema::create('equipment_types', function (Blueprint $table) {
             $table->id();
 
             $table->text('name')
@@ -34,6 +34,6 @@ class CreateEquipmentTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipment_type');
+        Schema::dropIfExists('equipment_types');
     }
 }

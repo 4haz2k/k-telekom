@@ -30,7 +30,7 @@ class CreateEquipmentsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('type_id')->references('id')->on('equipment_type');
+            $table->foreign('type_id')->references('id')->on('equipment_types');
         });
     }
 
