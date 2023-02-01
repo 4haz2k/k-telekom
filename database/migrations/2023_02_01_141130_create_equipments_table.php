@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEquipmentModelsTable extends Migration
+class CreateEquipmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEquipmentModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('equipment', function (Blueprint $table) {
+        Schema::create('equipments', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('type_id')
@@ -41,6 +41,6 @@ class CreateEquipmentModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipment_models');
+        Schema::dropIfExists('equipments');
     }
 }
