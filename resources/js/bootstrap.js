@@ -1,4 +1,9 @@
+const router = require("./router");
 window._ = require('lodash');
+
+try {
+    require('bootstrap');
+} catch (e) {}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -9,6 +14,21 @@ window._ = require('lodash');
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.axios.defaults.withCredentials = true;
+
+// window.axios.interceptors.response.use(request => request, error => {
+//     if (error.response.status === 401 || error.response.status === 419) {
+//         const token = localStorage.getItem('token');
+//
+//         if (token)
+//             localStorage.removeItem('token');
+//
+//         router.push({ name: 'user.login' });
+//     }
+//
+//     return Promise.reject(error)
+// })
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
