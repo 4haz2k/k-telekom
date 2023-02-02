@@ -13,6 +13,7 @@
 
             <main class="px-3">
                 <router-view></router-view>
+                <notifications/>
             </main>
         </div>
     </div>
