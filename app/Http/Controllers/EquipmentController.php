@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\EquipmentResource;
+use App\Http\Resources\EquipmentTypeResource;
 use App\Models\Equipment;
+use App\Models\EquipmentType;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -40,5 +43,42 @@ class EquipmentController extends Controller
     public function getEquipment($id): EquipmentResource
     {
         return EquipmentResource::make(Equipment::findOrFail($id));
+    }
+
+    /**
+     * Вывод пагинированного списка типов оборудования с возможностью
+     * поиска путем указания name и mask параметров
+     *
+     * @param Request $request
+     * @return AnonymousResourceCollection
+     */
+    public function getTypesList(Request $request): AnonymousResourceCollection
+    {
+        $equipmentTypes = EquipmentType::query();
+
+        if($request->has('name'))
+            $equipmentTypes = $equipmentTypes->where('name', 'like', "%{$request->get('name')}%");
+
+        if ($request->has('mask'))
+            $equipmentTypes = $equipmentTypes->where('mask', 'like', "%{$request->get('mask')}%");
+
+        $equipmentTypes = $equipmentTypes->paginate(10);
+
+        return EquipmentTypeResource::collection($equipmentTypes);
+    }
+
+    /**
+     * Удаление записи Equipments (мягкое удаление)
+     *
+     * @param numeric $id
+     * @return JsonResponse
+     */
+    public function deleteEquipment($id): JsonResponse
+    {
+        $equipment = Equipment::findOrFail($id);
+
+        $equipment->delete();
+
+        return response()->json(['message' => 'Delete success']);
     }
 }
