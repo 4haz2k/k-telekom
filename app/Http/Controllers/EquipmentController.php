@@ -78,9 +78,10 @@ class EquipmentController extends Controller
     {
         $equipment = Equipment::findOrFail($id);
 
-        $equipment->delete();
-
-        return response()->json(['message' => 'Delete success']);
+        if ($equipment->delete())
+            return response()->json(['message' => 'Delete successful']);
+        else
+            return response()->json(['message' => 'Failed to delete']);
     }
 
     /**
@@ -94,6 +95,6 @@ class EquipmentController extends Controller
         if (Equipment::edit($request))
             return response()->json(['message' => 'Save successful']);
         else
-            return response()->json(['message' => 'Fail to save']);
+            return response()->json(['message' => 'Failed to save']);
     }
 }
