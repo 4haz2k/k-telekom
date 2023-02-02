@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EditEquipmentRequest;
 use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\EquipmentTypeResource;
 use App\Models\Equipment;
@@ -80,5 +81,19 @@ class EquipmentController extends Controller
         $equipment->delete();
 
         return response()->json(['message' => 'Delete success']);
+    }
+
+    /**
+     * Редактирование записи Equipments
+     *
+     * @param EditEquipmentRequest $request
+     * @return JsonResponse
+     */
+    public function editEquipment(EditEquipmentRequest $request): JsonResponse
+    {
+        if (Equipment::edit($request))
+            return response()->json(['message' => 'Save successful']);
+        else
+            return response()->json(['message' => 'Fail to save']);
     }
 }
