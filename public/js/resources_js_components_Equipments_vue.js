@@ -368,7 +368,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.shake[data-v-0a6d9ed0] {\n    animation: shake-0a6d9ed0 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    transform: translate3d(0, 0, 0);\n}\n@keyframes shake-0a6d9ed0 {\n10%,\n    90% {\n        transform: translate3d(-1px, 0, 0);\n}\n20%,\n    80% {\n        transform: translate3d(2px, 0, 0);\n}\n30%,\n    50%,\n    70% {\n        transform: translate3d(-4px, 0, 0);\n}\n40%,\n    60% {\n        transform: translate3d(4px, 0, 0);\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.shake[data-v-0a6d9ed0] {\r\n    animation: shake-0a6d9ed0 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\r\n    transform: translate3d(0, 0, 0);\n}\n@keyframes shake-0a6d9ed0 {\n10%,\r\n    90% {\r\n        transform: translate3d(-1px, 0, 0);\n}\n20%,\r\n    80% {\r\n        transform: translate3d(2px, 0, 0);\n}\n30%,\r\n    50%,\r\n    70% {\r\n        transform: translate3d(-4px, 0, 0);\n}\n40%,\r\n    60% {\r\n        transform: translate3d(4px, 0, 0);\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
