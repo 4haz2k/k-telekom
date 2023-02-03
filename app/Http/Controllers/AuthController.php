@@ -27,7 +27,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'message' => 'Email & Password does not match with our record.',
+            'message' => 'Указанные данные не найдены в системе.',
         ], 401);
     }
 }

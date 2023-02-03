@@ -12,12 +12,12 @@
 
             <div class="form-floating">
                 <input v-model="email" type="email" class="form-control bg-dark my-2 text-white" id="floatingInput"
-                       placeholder="name@example.com">
+                       placeholder="name@example.com" required>
                 <label for="floatingInput">Email адрес</label>
             </div>
             <div class="form-floating">
                 <input v-model="password" type="password" class="form-control bg-dark my-2 text-white"
-                       id="floatingPassword" placeholder="Пароль">
+                       id="floatingPassword" placeholder="Пароль" required>
                 <label for="floatingPassword">Пароль</label>
             </div>
 
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import pagination from 'laravel-vue-pagination'
 export default {
     name: "Login",
 
