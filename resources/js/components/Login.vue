@@ -6,7 +6,7 @@
             <div v-if="errors_exist" class="alert alert-danger text-start" role="alert">
                 {{ error_message }}
                 <ul v-for="error in errors">
-                    <li>{{ error[0] }}</li>
+                    <li>{{ error.message }}</li>
                 </ul>
             </div>
 
@@ -38,7 +38,7 @@ export default {
         return {
             email: null,
             password: null,
-            errors: {},
+            errors: [],
             errors_exist: false,
             error_message: null,
         }
@@ -47,27 +47,53 @@ export default {
     methods: {
         login() {
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('/api/user/login', {
-                    email: this.email,
-                    password: this.password
-                }).then(response => {
-                    localStorage.setItem('token', response.data.token)
-                    this.$router.push({ name: "equipments.list" })
-                }).catch(err => {
-                    this.errors_exist = true;
+                if(this.checkForm()) {
+                    axios.post('/api/user/login', {
+                        email: this.email,
+                        password: this.password
+                    }).then(response => {
+                        localStorage.setItem('token', response.data.token)
+                        this.$router.push({ name: "equipments.list" })
+                    }).catch(err => {
+                        this.errors_exist = true;
 
-                    if (err.response.status === 422) {
-                        this.error_message = err.response.data.message;
-                        this.errors = err.response.data.errors || {};
-                    }
+                        if (err.response.status === 422) {
+                            this.error_message = err.response.data.message;
+                            Object.values(error.response.data.errors).map(error => {
+                                Object.values(error).map(message => {
+                                    this.errors.push({ message: message })
+                                })
+                            })
+                        }
 
-                    if (err.response.status === 401) {
-                        this.error_message = err.response.data.message;
-                        this.errors = null;
-                    }
-                })
+                        if (err.response.status === 401) {
+                            this.error_message = err.response.data.message;
+                            this.errors = null;
+                        }
+                    })
+                }
             })
-        }
+        },
+
+        checkForm() {
+            this.errors_exist = false;
+            this.errors = [];
+
+            if (!this.email) {
+                this.errors.push({ message: "Необходимо указать Email" });
+            }
+
+            if (!this.password) {
+                this.errors.push({ message: "Необходимо указать пароль" });
+            }
+
+            if (this.errors.length > 0) {
+                this.errors_exist = true;
+                return false;
+            }
+
+            return true;
+        },
     }
 }
 </script>

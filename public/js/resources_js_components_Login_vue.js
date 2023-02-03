@@ -20,7 +20,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       email: null,
       password: null,
-      errors: {},
+      errors: [],
       errors_exist: false,
       error_message: null
     };
@@ -29,26 +29,53 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
       axios.get('/sanctum/csrf-cookie').then(function (response) {
-        axios.post('/api/user/login', {
-          email: _this.email,
-          password: _this.password
-        }).then(function (response) {
-          localStorage.setItem('token', response.data.token);
-          _this.$router.push({
-            name: "equipments.list"
+        if (_this.checkForm()) {
+          axios.post('/api/user/login', {
+            email: _this.email,
+            password: _this.password
+          }).then(function (response) {
+            localStorage.setItem('token', response.data.token);
+            _this.$router.push({
+              name: "equipments.list"
+            });
+          })["catch"](function (err) {
+            _this.errors_exist = true;
+            if (err.response.status === 422) {
+              _this.error_message = err.response.data.message;
+              Object.values(error.response.data.errors).map(function (error) {
+                Object.values(error).map(function (message) {
+                  _this.errors.push({
+                    message: message
+                  });
+                });
+              });
+            }
+            if (err.response.status === 401) {
+              _this.error_message = err.response.data.message;
+              _this.errors = null;
+            }
           });
-        })["catch"](function (err) {
-          _this.errors_exist = true;
-          if (err.response.status === 422) {
-            _this.error_message = err.response.data.message;
-            _this.errors = err.response.data.errors || {};
-          }
-          if (err.response.status === 401) {
-            _this.error_message = err.response.data.message;
-            _this.errors = null;
-          }
-        });
+        }
       });
+    },
+    checkForm: function checkForm() {
+      this.errors_exist = false;
+      this.errors = [];
+      if (!this.email) {
+        this.errors.push({
+          message: "Необходимо указать Email"
+        });
+      }
+      if (!this.password) {
+        this.errors.push({
+          message: "Необходимо указать пароль"
+        });
+      }
+      if (this.errors.length > 0) {
+        this.errors_exist = true;
+        return false;
+      }
+      return true;
     }
   }
 });
@@ -82,7 +109,7 @@ var render = function render() {
       role: "alert"
     }
   }, [_vm._v("\n            " + _vm._s(_vm.error_message) + "\n            "), _vm._l(_vm.errors, function (error) {
-    return _c("ul", [_c("li", [_vm._v(_vm._s(error[0]))])]);
+    return _c("ul", [_c("li", [_vm._v(_vm._s(error.message))])]);
   })], 2) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "form-floating"
   }, [_c("input", {
