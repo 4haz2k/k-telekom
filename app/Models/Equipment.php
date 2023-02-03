@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Http\Requests\EditEquipmentRequest;
+use App\Http\Requests\StoreEquipmentRequest;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,5 +46,21 @@ class Equipment extends Model
             $equipment->description = $request->get('description');
 
         return $equipment->save();
+    }
+
+    public static function saveEquipment(StoreEquipmentRequest $request): bool
+    {
+        $data = [];
+        foreach ($request->get('serial_numbers') as $serial_number) {
+            $data[] = [
+                'type_id' => $request->get('type_id'),
+                'serial_number' => $serial_number['number'],
+                'description' => $request->get('description'),
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ];
+        }
+
+        return static::insert($data);
     }
 }

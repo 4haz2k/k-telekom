@@ -15,6 +15,10 @@ const router = new VueRouter ({
             path: '/equipments', component: () => import('./components/Equipments'),
             name: 'equipments.list'
         },
+        {
+            path: '/equipments/add', component: () => import('./components/EquipmentAdd'),
+            name: 'equipments.add'
+        },
     ]
 })
 

@@ -5362,7 +5362,14 @@ var render = function render() {
         name: "equipments.list"
       }
     }
-  }, [_vm._v("Список оборудования")]) : _vm._e(), _vm._v(" "), !_vm.token ? _c("router-link", {
+  }, [_vm._v("Список оборудования")]) : _vm._e(), _vm._v(" "), _vm.token ? _c("router-link", {
+    staticClass: "nav-link",
+    attrs: {
+      to: {
+        name: "equipments.add"
+      }
+    }
+  }, [_vm._v("Добавить оборудование")]) : _vm._e(), _vm._v(" "), !_vm.token ? _c("router-link", {
     staticClass: "nav-link",
     attrs: {
       to: {
@@ -5492,6 +5499,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       return __webpack_require__.e(/*! import() */ "resources_js_components_Equipments_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Equipments */ "./resources/js/components/Equipments.vue"));
     },
     name: 'equipments.list'
+  }, {
+    path: '/equipments/add',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_components_EquipmentAdd_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/EquipmentAdd */ "./resources/js/components/EquipmentAdd.vue"));
+    },
+    name: 'equipments.add'
   }]
 });
 router.beforeEach(function (to, from, next) {
@@ -44747,7 +44760,7 @@ module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBun
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_Login_vue":1,"resources_js_components_Equipments_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_Login_vue":1,"resources_js_components_Equipments_vue":1,"resources_js_components_EquipmentAdd_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

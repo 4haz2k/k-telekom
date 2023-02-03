@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EditEquipmentRequest;
+use App\Http\Requests\StoreEquipmentRequest;
 use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\EquipmentTypeResource;
 use App\Models\Equipment;
@@ -29,7 +30,7 @@ class EquipmentController extends Controller
                 ->where('serial_number', 'like', "%{$request->get('query')}%")
                 ->orWhere('description', 'like', "%{$request->get('query')}%");
 
-        $equipment = $equipment->paginate(10);
+        $equipment = $equipment->orderByDesc('created_at')->paginate(10);
 
         return EquipmentResource::collection($equipment);
     }
@@ -92,6 +93,20 @@ class EquipmentController extends Controller
     public function editEquipment(EditEquipmentRequest $request): JsonResponse
     {
         if (Equipment::edit($request))
+            return response()->json(['message' => 'Save successful']);
+        else
+            return response()->json(['message' => 'Failed to save']);
+    }
+
+    /**
+     * Сохранение новых записей Equipments
+     *
+     * @param StoreEquipmentRequest $request
+     * @return JsonResponse
+     */
+    public function addEquipment(StoreEquipmentRequest $request): JsonResponse
+    {
+        if(Equipment::saveEquipment($request))
             return response()->json(['message' => 'Save successful']);
         else
             return response()->json(['message' => 'Failed to save']);

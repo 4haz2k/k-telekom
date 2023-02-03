@@ -6,6 +6,7 @@
                     <h3 class="float-md-start mb-0">k-telekom</h3>
                     <nav class="nav nav-masthead justify-content-center float-md-end">
                         <router-link v-if="token" :to="{ name: 'equipments.list' }" class="nav-link">Список оборудования</router-link>
+                        <router-link v-if="token" :to="{ name: 'equipments.add' }" class="nav-link">Добавить оборудование</router-link>
                         <router-link v-if="!token" :to="{ name: 'user.login' }" class="nav-link">Авторизация</router-link>
                     </nav>
                 </div>
