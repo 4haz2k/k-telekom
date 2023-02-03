@@ -103,4 +103,19 @@ class StoreEquipmentRequest extends FormRequest
             ]
         ];
     }
+
+    /**
+     * Сообщения валидации
+     *
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'type_id.exists' => 'Данного типа оборудования не существует.',
+            'serial_numbers.*.number.unique' => 'Некоторые серийные номера не уникальные.',
+            'isSerialValid.in' => 'Некоторые серийные номера не соответствуют маске оборудования.',
+            'isSerialsAreUnique.in' => 'Серийные номера повторяются.'
+        ];
+    }
 }

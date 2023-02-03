@@ -79,9 +79,9 @@ class EquipmentController extends Controller
         $equipment = Equipment::findOrFail($id);
 
         if ($equipment->delete())
-            return response()->json(['message' => 'Delete successful']);
+            return response()->json(['message' => 'Удалено успешно']);
         else
-            return response()->json(['message' => 'Failed to delete']);
+            return response()->json(['message' => 'Ошибка удаления']);
     }
 
     /**
@@ -93,9 +93,9 @@ class EquipmentController extends Controller
     public function editEquipment(EditEquipmentRequest $request): JsonResponse
     {
         if (Equipment::edit($request))
-            return response()->json(['message' => 'Save successful']);
+            return response()->json(['message' => 'Успешное сохранение']);
         else
-            return response()->json(['message' => 'Failed to save']);
+            return response()->json(['message' => 'Не удалось сохранить']);
     }
 
     /**
@@ -107,8 +107,8 @@ class EquipmentController extends Controller
     public function addEquipment(StoreEquipmentRequest $request): JsonResponse
     {
         if(Equipment::saveEquipment($request))
-            return response()->json(['message' => 'Save successful']);
+            return response()->json(['message' => 'Успешное сохранение']);
         else
-            return response()->json(['message' => 'Failed to save']);
+            return response()->json(['message' => 'Не удалось сохранить']);
     }
 }

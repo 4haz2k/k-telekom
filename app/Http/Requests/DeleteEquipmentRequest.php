@@ -28,4 +28,17 @@ class DeleteEquipmentRequest extends FormRequest
             'id' => 'required|exists:equipments,id'
         ];
     }
+
+    /**
+     * Сообщения валидации
+     *
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'id.required' => 'Необходимо указать ID оборудования.',
+            'id.exists' => 'Оборудованния с данным ID не существует.',
+        ];
+    }
 }

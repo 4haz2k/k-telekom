@@ -72,4 +72,20 @@ class EditEquipmentRequest extends FormRequest
             ]
         ];
     }
+
+    /**
+     * Сообщения валидации
+     *
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'id.required' => 'Необходимо указать ID оборудования.',
+            'id.exists' => 'Оборудованния с данным ID не существует.',
+            'type_id.exists' => 'Данного типа оборудования не существует.',
+            'serial_number.unique' => 'Серийный номер не уникален.',
+            'isSerialValid.in' => 'ерийный номер не соответствует маске оборудования.',
+        ];
+    }
 }
