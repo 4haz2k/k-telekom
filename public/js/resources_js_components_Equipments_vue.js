@@ -30,7 +30,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "default": null
       },
       disabled: false,
-      errors: {},
+      errors: [],
       search: null,
       page: null
     };
@@ -66,7 +66,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
+              if (!_this2.checkForm(equipment)) {
+                _context2.next = 3;
+                break;
+              }
+              _context2.next = 3;
               return axios.put('/api/equipment/' + equipment.id, {
                 id: equipment.id,
                 type_id: equipment.type.id,
@@ -80,7 +84,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
               })["catch"](function (error) {
                 if (error.response.status === 422) {
-                  _this2.errors = error.response.data.errors || {};
+                  Object.values(error.response.data.errors).map(function (error) {
+                    Object.values(error).map(function (message) {
+                      _this2.errors.push({
+                        message: message
+                      });
+                    });
+                  });
                   _this2.showAlert();
                 }
                 if (error.response.status === 404) {
@@ -91,7 +101,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 }
               });
-            case 2:
+            case 3:
             case "end":
               return _context2.stop();
           }
@@ -156,6 +166,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       setTimeout(function () {
         _this5.disabled = false;
       }, 7000);
+    },
+    checkForm: function checkForm(equipment) {
+      this.errors_exist = false;
+      this.errors = [];
+      if (equipment.type.name === '') {
+        this.errors.push({
+          message: "Необходимо указать тип оборудования"
+        });
+      }
+      if (equipment.serial_number === '') {
+        this.errors.push({
+          message: "Необходимо указать серийный номер оборудования"
+        });
+      }
+      if (this.errors.length > 0) {
+        this.errors_exist = true;
+        this.showAlert();
+        return false;
+      }
+      return true;
     }
   }
 });
@@ -186,7 +216,7 @@ var render = function render() {
       role: "alert"
     }
   }, [_vm._v("\n        " + _vm._s(_vm.error_message) + "\n        "), _vm._l(_vm.errors, function (error) {
-    return _c("ul", [_c("li", [_vm._v(_vm._s(error[0]))])]);
+    return _c("ul", [_c("li", [_vm._v(_vm._s(error.message))])]);
   })], 2) : _vm._e(), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
@@ -368,7 +398,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.shake[data-v-0a6d9ed0] {\r\n    animation: shake-0a6d9ed0 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\r\n    transform: translate3d(0, 0, 0);\n}\n@keyframes shake-0a6d9ed0 {\n10%,\r\n    90% {\r\n        transform: translate3d(-1px, 0, 0);\n}\n20%,\r\n    80% {\r\n        transform: translate3d(2px, 0, 0);\n}\n30%,\r\n    50%,\r\n    70% {\r\n        transform: translate3d(-4px, 0, 0);\n}\n40%,\r\n    60% {\r\n        transform: translate3d(4px, 0, 0);\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.shake[data-v-0a6d9ed0] {\n    animation: shake-0a6d9ed0 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    transform: translate3d(0, 0, 0);\n}\n@keyframes shake-0a6d9ed0 {\n10%,\n    90% {\n        transform: translate3d(-1px, 0, 0);\n}\n20%,\n    80% {\n        transform: translate3d(2px, 0, 0);\n}\n30%,\n    50%,\n    70% {\n        transform: translate3d(-4px, 0, 0);\n}\n40%,\n    60% {\n        transform: translate3d(4px, 0, 0);\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

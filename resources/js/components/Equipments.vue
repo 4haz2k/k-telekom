@@ -3,7 +3,7 @@
         <div class="alert alert-danger text-start" role="alert" :class="{ shake: disabled }" v-if="disabled">
             {{ error_message }}
             <ul v-for="error in errors">
-                <li>{{ error[0] }}</li>
+                <li>{{ error.message }}</li>
             </ul>
         </div>
         <input type="text" class="bg-dark text-white form-control" v-model="search" @input="searchEquipment" placeholder="Поиск по серийному номеру/примечанию">
@@ -64,7 +64,7 @@ export default {
                 default: null,
             },
             disabled: false,
-            errors: {},
+            errors: [],
             search: null,
             page: null,
         }
@@ -83,31 +83,37 @@ export default {
         },
 
         async editEquipment(equipment) {
-            await axios.put('/api/equipment/' + equipment.id, {
-                id: equipment.id,
-                type_id: equipment.type.id,
-                serial_number: equipment.serial_number,
-                description: equipment.description
-            }).then(response => {
-                this.$notify({
-                    title: 'Сохранение оборудования',
-                    text: response.data.message,
-                    type: 'success',
-                });
-            }).catch(error => {
-                if (error.response.status === 422) {
-                    this.errors = error.response.data.errors || {};
-                    this.showAlert()
-                }
-
-                if (error.response.status === 404) {
+            if (this.checkForm(equipment)) {
+                await axios.put('/api/equipment/' + equipment.id, {
+                    id: equipment.id,
+                    type_id: equipment.type.id,
+                    serial_number: equipment.serial_number,
+                    description: equipment.description
+                }).then(response => {
                     this.$notify({
                         title: 'Сохранение оборудования',
-                        text: error.data.message,
-                        type: 'error',
+                        text: response.data.message,
+                        type: 'success',
                     });
-                }
-            })
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        Object.values(error.response.data.errors).map(error => {
+                            Object.values(error).map(message => {
+                                this.errors.push({ message: message })
+                            })
+                        })
+                        this.showAlert()
+                    }
+
+                    if (error.response.status === 404) {
+                        this.$notify({
+                            title: 'Сохранение оборудования',
+                            text: error.data.message,
+                            type: 'error',
+                        });
+                    }
+                })
+            }
         },
 
         async deleteEquipment(equipment) {
@@ -147,6 +153,27 @@ export default {
             setTimeout(() => {
                 this.disabled = false
             }, 7000)
+        },
+
+        checkForm(equipment) {
+            this.errors_exist = false;
+            this.errors = [];
+
+            if (equipment.type.name === '') {
+                this.errors.push({ message: "Необходимо указать тип оборудования" });
+            }
+
+            if (equipment.serial_number === '') {
+                this.errors.push({ message: "Необходимо указать серийный номер оборудования" });
+            }
+
+            if (this.errors.length > 0) {
+                this.errors_exist = true;
+                this.showAlert()
+                return false;
+            }
+
+            return true;
         },
     }
 }
