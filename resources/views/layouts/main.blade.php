@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Document</title>
+    <title>K-telekom</title>
 </head>
 <body class="bg-dark">
     <div id="app">

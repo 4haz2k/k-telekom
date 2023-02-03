@@ -30,7 +30,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "default": null
       },
       disabled: false,
-      errors: {}
+      errors: {},
+      search: null,
+      page: null
     };
   },
   mounted: function mounted() {
@@ -127,11 +129,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    showAlert: function showAlert() {
+    searchEquipment: function searchEquipment() {
       var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return axios.get("/api/equipment?page=1" + _this4.page, {
+                params: {
+                  query: _this4.search
+                }
+              }).then(function (response) {
+                _this4.equipments = response.data;
+              });
+            case 2:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4);
+      }))();
+    },
+    showAlert: function showAlert() {
+      var _this5 = this;
       this.disabled = true;
       setTimeout(function () {
-        _this4.disabled = false;
+        _this5.disabled = false;
       }, 7000);
     }
   }
@@ -164,7 +187,28 @@ var render = function render() {
     }
   }, [_vm._v("\n        " + _vm._s(_vm.error_message) + "\n        "), _vm._l(_vm.errors, function (error) {
     return _c("ul", [_c("li", [_vm._v(_vm._s(error[0]))])]);
-  })], 2) : _vm._e(), _vm._v(" "), _c("table", {
+  })], 2) : _vm._e(), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.search,
+      expression: "search"
+    }],
+    staticClass: "bg-dark text-white form-control",
+    attrs: {
+      type: "text",
+      placeholder: "Поиск по серийному номеру/примечанию"
+    },
+    domProps: {
+      value: _vm.search
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.search = $event.target.value;
+      }, _vm.searchEquipment]
+    }
+  }), _vm._v(" "), _c("table", {
     staticClass: "table table-dark table-striped"
   }, [_vm._m(0), _vm._v(" "), _vm.equipments ? _c("tbody", _vm._l(_vm.equipments.data, function (equipment, index) {
     return _c("tr", {

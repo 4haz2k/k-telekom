@@ -24,11 +24,10 @@ class EquipmentController extends Controller
     {
         $equipment = Equipment::query();
 
-        if($request->has('serial'))
-            $equipment = $equipment->where('serial_number', 'like', "%{$request->get('serial')}%");
-
-        if($request->has('description'))
-            $equipment = $equipment->where('description', 'like', "%{$request->get('description')}%");
+        if($request->has('query'))
+            $equipment = $equipment
+                ->where('serial_number', 'like', "%{$request->get('query')}%")
+                ->orWhere('description', 'like', "%{$request->get('query')}%");
 
         $equipment = $equipment->paginate(10);
 

@@ -6,6 +6,7 @@
                 <li>{{ error[0] }}</li>
             </ul>
         </div>
+        <input type="text" class="bg-dark text-white form-control" v-model="search" @input="searchEquipment" placeholder="Поиск по серийному номеру/примечанию">
         <table class="table table-dark table-striped">
             <thead>
                 <tr>
@@ -64,6 +65,8 @@ export default {
             },
             disabled: false,
             errors: {},
+            search: null,
+            page: null,
         }
     },
 
@@ -126,6 +129,16 @@ export default {
                 }
 
                 this.showAlert()
+            })
+        },
+
+        async searchEquipment() {
+            await axios.get("/api/equipment?page=1" + this.page, {
+                params: {
+                    query: this.search
+                }
+            }).then(response => {
+                this.equipments = response.data
             })
         },
 
